@@ -9,6 +9,35 @@
 </head>
 <body>
     {{>navbar}}
+
+    <div class="container">
+        <div class="row my-5">
+            <div class="col-sm-6 col-md-4 mx-auto">
+                <h1 class="text-center login-title my-5">Student Login Form</h1>
+                <div class="account-wall">
+                    <img class="profile-img " src="" alt="">
+                    <form action="/login" class="form-signin" method="POST">
+                    <input type="text" class="form-control" placeholder="Email" required name="email">
+                    <input type="password" class="form-control" placeholder="password" required name="password">
+                    <button class="btn btn-primary btn-block" type="submit"> Sign in</button>
+                    <label class="checkbox pull-left mt-3" >
+                        <input type="checkbox" value="remember-me">
+                        Remember me
+                    </label>
+                    <span class="clearfix">
+                    <a href="#" class="pull-right need-help"> Need Help</a>
+                    </span>
+                    </form>
+                </div>
+                <a href="/register" class="text-center new-account">Create an account</a>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+   
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
     
 </body>
 </html>
