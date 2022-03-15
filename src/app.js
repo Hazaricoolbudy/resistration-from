@@ -5,11 +5,14 @@ const path = require("path");
 const app = express();
 const hbs = require("hbs");
 const jwt=require('jsonwebtoken')
+const cookie=require('cookie-parser')
+const auth=require('./middleware/auth')
 
 require("./db/conn");
 
 const Register = require("./modules/register");
 const { json } = require("express");
+app.use(cookie())
 const async = require("hbs/lib/async");
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -30,6 +33,11 @@ console.log(process.env.SECRET_KEY);
 
 app.get("/", (req, res) => {
   res.render("index");
+});
+app.get("/secret",auth, (req, res) => {
+  // console.log(` this is cookie ${req.cookies.jwt}`);
+
+  res.render("secret");
 });
 app.get("/register", (req, res) => {
   res.render("register");
@@ -52,6 +60,11 @@ app.post("/register", async (req, res) => {
       })
       // concept of middle ware
         const token=await registerStudent.generateAuthToken()
+        res.cookie("jwt",token,
+        {
+          expires:new Date(Date.now()+30000),
+          httpOnly:true
+        });
         
 
       const result=await registerStudent.save()
@@ -79,6 +92,12 @@ app.post("/login", async(req, res) => {
       const isMatch= await bcrybt.compare(password,userEmail.password)
       const token=await userEmail.generateAuthToken()
       console.log("token of login is"+token)
+      res.cookie("jwt",token,
+        {
+          expires:new Date(Date.now()+300000),
+          httpOnly:true,
+          secure:true
+        });
 
       if(isMatch){
           res.status(201).render("index")
@@ -95,6 +114,27 @@ app.post("/login", async(req, res) => {
     
   });
 
+  app.get("/logout",auth,async(req,res)=>{
+    try {
+// single device logout
+        // req.user.tokens=req.user.tokens.filter((currentelem)=>{
+        //   return currentelem.token !=req.token
+
+        // })
+
+        //multiple device logout
+        req.user.tokens=[];
+
+      res.clearCookie("jwt");
+      console.log("logut ");
+      await req.user.save()
+      res.render("login")
+      
+    } catch (error) {
+      res.status(500).send(error)
+      
+    }
+  })
 
 
 // const securePassword= async(password)=>{
